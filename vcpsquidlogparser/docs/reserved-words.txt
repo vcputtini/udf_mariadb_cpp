@@ -1,0 +1,29 @@
+
+The complete explanation of the logformat configuration directives
+can be found at: http://www.squid-cache.org/Doc/config/logformat/
+
+Reserved Word                   Directive       Comments
+------------------------------- --------------- -------------------------------
+timestamp                       %ts.%03tu       (1)
+response_time                   %tr             milliseconds
+source_ip_address               %>a
+req0tatus_hiearstatus           %Ss/%03>Hs
+squid_req_status                %Ss
+squid_hier_status               %Sh
+reqstatus_hierstatus            %Ss/%sh
+hierstatus_server_ip            %Sh/%<a
+http_status_send                %>Hs
+totalsizereply                  %<st            bytes
+requestmethod                   %rm
+url                             %ru
+mimetype                        %mt
+usernameident                   %ui
+username                        %un
+localtime                       %tl
+requestprotoversion             %rv
+originrcv_reqheader             %>h
+referrer                        %{Referrer}>h
+user_agent                      %{User-Agent}>h
+-------------------------------------------------------------------------------
+(1) In formats: squid and referrer returns the unixtimestamp converted to the
+    format dd/Mmm/yyyy:hh:mm:ss [-]nnnnn.
