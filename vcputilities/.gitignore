@@ -12,6 +12,7 @@ CMakeLists.txt.user.*
 *.log
 *.old
 *.php
+*.pdf
 
 # This file is used to ignore files which are generated
 # ----------------------------------------------------------------------------
