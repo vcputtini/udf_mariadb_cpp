@@ -69,6 +69,7 @@
 #include <cstdio>
 #include <cstring>
 
+/*! \warning Don't change the values below, this will make the code fail. */
 constexpr int LAT_PTO_A = 0;
 constexpr int LON_PTO_A = 1;
 constexpr int LAT_PTO_B = 2;

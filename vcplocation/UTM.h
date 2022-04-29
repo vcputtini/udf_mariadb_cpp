@@ -59,6 +59,7 @@ constexpr double pi = 3.14159265358979;
 constexpr double pi = M_PI;
 #endif
 
+/*! \warning Don't change the values below, this will make the code fail. */
 /* Ellipsoid model constants (actual values here are for WGS84) */
 constexpr double sm_a = 6378137.0;
 constexpr double sm_b = 6356752.314;

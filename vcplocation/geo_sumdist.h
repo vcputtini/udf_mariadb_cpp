@@ -69,6 +69,7 @@
 #include <cstdio>
 #include <cstring>
 
+/*! \warning Don't change the values below, this will make the code fail. */
 constexpr int ARG_LAT = 0;
 constexpr int ARG_LON = 1;
 constexpr int METRICTYPE = 2;

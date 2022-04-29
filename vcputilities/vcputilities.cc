@@ -96,6 +96,10 @@ Utilities::isValidOp(const std::string arg_)
 
 /* Times ------------------------------------------------------------------- */
 
+/*!
+ * \internal
+ * \brief Functions for conversion calculations
+ */
 constexpr double
 Utilities::Hr2Min(const double d_)
 {
@@ -169,9 +173,9 @@ Utilities::MSec2Sec(const double d_)
 }
 
 /*!
- * \brief From time sexagesimal to centesimal.
+ * \brief From time sexagesimal to decimal.
  * \param d_ Time in format: hh.mmss
- * \return time centesimal
+ * \return time decimal
  */
 constexpr double
 Utilities::toBase10(const double d_)
@@ -181,11 +185,10 @@ Utilities::toBase10(const double d_)
 }
 
 /*!
- * \brief From time centesimal to sexagesimal.
+ * \brief From time decimal to sexagesimal.
  * \param d_ Time in format: hh.mmss
  * \return time sexagesimal
  */
-
 constexpr double
 Utilities::toBase60(const double d_)
 {
@@ -206,12 +209,12 @@ extern "C"
 
   /* AVG_IF() --------------------------------------------------------------- */
   /*!
-   * \internal
-   * \brief avg_if_init
-   * \param initid
-   * \param args
-   * \param message
-   * \return my_bool MY_TRUE|MY_FALSE
+   * \name avg_if()
+   * \brief Returns the average of the value given a conditional expression
+   * \param value (rhs)
+   * \param condition
+   * \param value (lhs)
+   * \returns double
    */
   my_bool avg_if_init(UDF_INIT* initid, UDF_ARGS* args, char* message)
   {
@@ -271,8 +274,6 @@ extern "C"
 
   /*!
    * \internal
-   * \brief avg_if_deinit
-   * \param initid
    */
   void avg_if_deinit(UDF_INIT* initid)
   {
@@ -282,12 +283,7 @@ extern "C"
   }
 
   /*!
-   * \intenal
-   * \brief avg_if_clear
-   * \param initid
-   * \param args
-   * \param is_null
-   * \param error
+   * \internal
    */
   void avg_if_clear(UDF_INIT* initid,
                     [[maybe_unused]] UDF_ARGS* args,
@@ -301,11 +297,6 @@ extern "C"
 
   /*!
    * \internal
-   * \brief avg_if_reset
-   * \param initid
-   * \param args
-   * \param is_null
-   * \param error
    */
   void avg_if_reset(UDF_INIT* initid,
                     UDF_ARGS* args,
@@ -318,11 +309,6 @@ extern "C"
 
   /*!
    * \internal
-   * \brief avg_if_add
-   * \param initid
-   * \param args
-   * \param is_null
-   * \param error
    */
   void avg_if_add([[maybe_unused]] UDF_INIT* initid,
                   UDF_ARGS* args,
@@ -440,14 +426,6 @@ extern "C"
 
   /*!
    * \brief User interface
-   * \param initid
-   * \param args
-   * \param is_null
-   * \param error
-   * \return double
-   * \note How to register the function:
-   * CREATE OR REPLACE AGGREGATE FUNCTION avg_if RETURNS REAL SONAME
-   * 'libUTILlgorithm.so';
    */
   double avg_if(UDF_INIT* initid,
                 [[maybe_unused]] UDF_ARGS* args,
@@ -469,13 +447,14 @@ extern "C"
 
   /* SUM_IF() --------------------------------------------------------------- */
   /*!
-   * \internal
-   * \brief sum_if_init
-   * \param initid
-   * \param args
-   * \param message
-   * \return my_bool MY_TRUE|MY_FALSE
+   * \name sum_if()
+   * \brief Returns the summ of the value given a conditional expression
+   * \param value (rhs)
+   * \param condition
+   * \param value (lhs)
+   * \returns double
    */
+
   my_bool sum_if_init(UDF_INIT* initid, UDF_ARGS* args, char* message)
   {
     UTIL util;
@@ -532,8 +511,6 @@ extern "C"
 
   /*!
    * \internal
-   * \brief sum_if_deinit
-   * \param initid
    */
   void sum_if_deinit(UDF_INIT* initid)
   {
@@ -543,12 +520,7 @@ extern "C"
   }
 
   /*!
-   * \intenal
-   * \brief sum_if_clear
-   * \param initid
-   * \param args
-   * \param is_null
-   * \param error
+   * \internal
    */
   void sum_if_clear(UDF_INIT* initid,
                     [[maybe_unused]] UDF_ARGS* args,
@@ -562,11 +534,6 @@ extern "C"
 
   /*!
    * \internal
-   * \brief sum_if_reset
-   * \param initid
-   * \param args
-   * \param is_null
-   * \param error
    */
   void sum_if_reset(UDF_INIT* initid,
                     UDF_ARGS* args,
@@ -579,11 +546,6 @@ extern "C"
 
   /*!
    * \internal
-   * \brief sum_if_add
-   * \param initid
-   * \param args
-   * \param is_null
-   * \param error
    */
   void sum_if_add(UDF_INIT* initid,
                   UDF_ARGS* args,
@@ -653,14 +615,6 @@ extern "C"
 
   /*!
    * \brief User interface
-   * \param initid
-   * \param args
-   * \param is_null
-   * \param error
-   * \return double
-   * \note How to register the function:
-   * CREATE OR REPLACE AGGREGATE FUNCTION sum_if RETURNS REAL SONAME
-   * 'libUTILlgorithm.so';
    */
   double sum_if(UDF_INIT* initid,
                 [[maybe_unused]] UDF_ARGS* args,
@@ -673,11 +627,12 @@ extern "C"
 
   /* COUNT_IF() ------------------------------------------------------------- */
   /*!
-   * \brief count_if_init
-   * \param initid
-   * \param args
-   * \param message
-   * \return my_bool MY_TRUE|MY_FALSE
+   * \name count_if()
+   * \brief Returns a count of the number given a conditional expression
+   * \param value (rhs)
+   * \param condition
+   * \param value (lhs)
+   * \returns int64_t
    */
   my_bool count_if_init(UDF_INIT* initid, UDF_ARGS* args, char* message)
   {
@@ -734,8 +689,7 @@ extern "C"
   }
 
   /*!
-   * \brief count_if_deinit
-   * \param initid
+   * \internal
    */
   void count_if_deinit(UDF_INIT* initid)
   {
@@ -745,11 +699,7 @@ extern "C"
   }
 
   /*!
-   * \brief count_if_clear
-   * \param initid
-   * \param args
-   * \param is_null
-   * \param error
+   * \internal
    */
   void count_if_clear(UDF_INIT* initid,
                       [[maybe_unused]] UDF_ARGS* args,
@@ -762,11 +712,7 @@ extern "C"
   }
 
   /*!
-   * \brief count_if_reset
-   * \param initid
-   * \param args
-   * \param is_null
-   * \param error
+   * \internal
    */
   void count_if_reset(UDF_INIT* initid,
                       UDF_ARGS* args,
@@ -778,11 +724,7 @@ extern "C"
   }
 
   /*!
-   * \brief count_if_add
-   * \param initid
-   * \param args
-   * \param is_null
-   * \param error
+   * \internal
    */
   void count_if_add(UDF_INIT* initid,
                     UDF_ARGS* args,
@@ -852,14 +794,6 @@ extern "C"
 
   /*!
    * \brief User interface
-   * \param initid
-   * \param args
-   * \param is_null
-   * \param error
-   * \return int64_t (longlong)
-   * \note How to register the function:
-   * CREATE OR REPLACE AGGREGATE FUNCTION count_if RETURNS INTEGER SONAME
-   * 'libUTILlgorithm.so';
    */
   int64_t count_if(UDF_INIT* initid,
                    [[maybe_unused]] UDF_ARGS* args,
@@ -871,6 +805,16 @@ extern "C"
   }
 
   /* TIME CONVERTIONS ----------------------------------------------------- */
+
+  /*!
+   * \name time_convert()
+   * \brief Performs conversions between time units.
+   * \param time unit (lhs)
+   * \param convertion (rhs)
+   * \return converted time unit.
+   *
+   * \example time_convert(120,"hours_to_min") -> 7200 minutes.
+   */
 
   struct Temp
   {
@@ -932,6 +876,9 @@ extern "C"
     return MY_TRUE;
   }
 
+  /*!
+   * \internal
+   */
   void time_convert_deinit(UDF_INIT* initid)
   {
     if (initid->ptr != NULL) {
@@ -939,6 +886,9 @@ extern "C"
     }
   }
 
+  /*!
+   * \User interface
+   */
   double time_convert(UDF_INIT* initid,
                       UDF_ARGS* args,
                       [[maybe_unused]] char* is_null,
@@ -985,7 +935,6 @@ extern "C"
       case Utilities::ConvertionTypes::MSecToSec: {
         return Utilities::MSec2Sec(d_);
       }
-
       case Utilities::ConvertionTypes::toBase10: {
         return Utilities::toBase10(d_);
       }

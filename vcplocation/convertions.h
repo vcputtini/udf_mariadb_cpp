@@ -71,6 +71,7 @@
 
 #ifdef HAVE_DLOPEN
 
+/*! \warning Don't change the values below, this will make the code fail. */
 constexpr int ARG_VALUE = 0;
 constexpr int ARG_DEC = 1;
 constexpr int ARG_TYPE = 2;

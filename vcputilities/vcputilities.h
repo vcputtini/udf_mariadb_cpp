@@ -122,8 +122,8 @@ struct VCPUTILITIES_EXPORT Utilities
     MSecToMin,
     MSecToSec,
 
-    toBase10, // from time sexagesimal to centesimal
-    toBase60, // from time centesimal to sexagesimal
+    toBase10, // from time sexagesimal to decimal
+    toBase60, // from time decimal to sexagesimal
 
     Unknown
   };
