@@ -559,8 +559,10 @@ class SLPUrlParts
 public:
   explicit SLPUrlParts(const std::string rawUrl_);
 
-  std::string getProtocol() const;
+  std::string getScheme() const;
   std::string getDomain() const;
+  std::string getUsername() const;
+  std::string getPassword() const;
   std::string getPath() const;
   std::string getQuery() const;
   std::string getFragment() const;
@@ -570,14 +572,19 @@ private:
 
   struct UrlAnatomy_t
   {
-    std::string protocol_;
+    std::string scheme_;
     std::string domain_;
+    std::string username_;
+    std::string password_;
     std::string path_;
     std::string query_;
     std::string fragment_;
   } url_t;
 
   void parseUrl();
+
+  bool getUserInfo(size_t& pos_);
+  bool hasEscape(const std::string text_);
 };
 
 } // namespace squidlogparser
