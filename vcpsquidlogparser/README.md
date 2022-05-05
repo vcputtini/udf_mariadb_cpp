@@ -112,10 +112,10 @@ Up to this point the *slp_int() and slp_str()* can handle the default formats of
     Type: function<br>
     Brief: Returns a part of the URL.<br>
     _STRING slp_urlparts(string, string)_<br>
-    It breaks the URL into its main parts as follows:PROTOCOL, DOMAIN, PATH, QUERY and FRAGMENT.<br>
+    It breaks the URL into its main parts as follows: SCHEME, DOMAIN, PATH, QUERY and FRAGMENT.<br>
     It was inspired by the built-in PARSE_URL() function of Apache(tm) IMPALA(tm).<br>
-    Anatomy: protocol://DOMAIN:PORT/path?query#fragment<br>
-    Reserved words: "protocol" | "domain" | "path" | "quey" | "fragment"<br>
+    Anatomy: <scheme>://DOMAIN:PORT/path?query#fragment<br>
+    Reserved words: "scheme" | "domain" | "username" | "password" | "path" | "quey" | "fragment"<br>
     Arguments:<br>
     1st: URL (e.g.: "https://www.fedoraproject.org" or table field.)
     2nd: URL part reserved word.
@@ -124,13 +124,17 @@ Up to this point the *slp_int() and slp_str()* can handle the default formats of
 
     SELECT slp_urlparts(url_field, "domain")
     FROM log_squid
-    WHERE slp_urlparts(url_field, "protocol") = "https";
+    WHERE slp_urlparts(url_field, "scheme") = "https";
 
     SELECT slp_urlparts("https://www.google.com/search?client=firefox-b-d&q=google+translate","domain");
     Result: www.google.com
 
     SELECT slp_urlparts("https://www.google.com/search?client=firefox-b-d&q=google+translate","query");
     Result: ?client=firefox-b-d&q=google+translate
+
+    MariaDB [test]> SELECT slp_urlparts("http://USERNAME:PASS111@www.domain.aaa/","password");
+
+    MariaDB [test]> SELECT slp_urlparts("http://USERNAME:PASS111@www.domain.aaa/","password");
     ```
     See docs/ex-slp_urlparts.sql for a more complete example.
 
@@ -143,6 +147,8 @@ String fields:
 ```
 SELECT slp_str("squid", RAW_LOG_FIELD, "url") FROM squid_log_tbl;
 SELECT slp_str("squid", RAW_LOG_FIELD, "url","domain") FROM squid_log_tbl;
+SELECT slp_str("squid", RAW_LOG_FIELD, "url","username") FROM squid_log_tbl;
+SELECT slp_str("squid", RAW_LOG_FIELD, "url","password") FROM squid_log_tbl;
 SELECT slp_str("squid", RAW_LOG_FIELD, "url","path") FROM squid_log_tbl;
 SELECT slp_str("squid", RAW_LOG_FIELD, "url","query") FROM squid_log_tbl;
 SELECT slp_str("squid", RAW_LOG_FIELD, "url","fragment") FROM squid_log_tbl;
