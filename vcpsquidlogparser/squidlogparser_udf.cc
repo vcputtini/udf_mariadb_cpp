@@ -369,14 +369,15 @@ extern "C"
       } else {
         const std::string s_(args->args[ARG_DATA_1], args->lengths[ARG_DATA_1]);
         static constexpr std::string_view f_ =
-          "protocoldomainpathqueryfragment";
+          "schemedomainusernamepasswordpathqueryfragment";
         if (std::size_t found = f_.find(util.toLower(s_));
             found == std::string::npos) {
           util.getErrorText(ErrID::ERR_INVALID_ARG, r);
-          std::sprintf(message,
-                       r.msg,
-                       2,
-                       "Valid are: protocol|domain|path|query|fragment");
+          std::sprintf(
+            message,
+            r.msg,
+            2,
+            "Valid are: scheme|domain|username|password|path|query|fragment");
           return MY_FALSE;
         }
       }
@@ -412,10 +413,14 @@ extern "C"
 
     SLPUrlParts url_part_(url_);
 
-    if (util.toLower(part_) == "protocol") {
-      str_ = url_part_.getProtocol();
+    if (util.toLower(part_) == "scheme") {
+      str_ = url_part_.getScheme();
     } else if (util.toLower(part_) == "domain") {
       str_ = url_part_.getDomain();
+    } else if (util.toLower(part_) == "username") {
+      str_ = url_part_.getUsername();
+    } else if (util.toLower(part_) == "password") {
+      str_ = url_part_.getPassword();
     } else if (util.toLower(part_) == "path") {
       str_ = url_part_.getPath();
     } else if (util.toLower(part_) == "query") {
