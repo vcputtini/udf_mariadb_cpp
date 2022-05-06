@@ -1399,7 +1399,7 @@ SLPUrlParts::parseUrl()
       work_url_ = std::string_view{ work_url_ }.substr(0, p_query_);
     }
 
-    size_t p_scheme_ = std::string_view{ work_url_ }.find("://");
+    size_t p_scheme_ = std::string_view{ work_url_ }.find_first_of("://");
     size_t p_slash_;
     if (p_scheme_ != std::string::npos) {
       url_t.scheme_ = std::string_view{ work_url_ }.substr(0, p_scheme_);
