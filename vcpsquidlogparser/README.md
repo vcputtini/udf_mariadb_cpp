@@ -117,8 +117,21 @@ Up to this point the *slp_int() and slp_str()* can handle the default formats of
     Anatomy: <scheme>://DOMAIN:PORT/path?query#fragment<br>
     Reserved words: "scheme" | "domain" | "username" | "password" | "path" | "quey" | "fragment"<br>
     Arguments:<br>
-    1st: URL (e.g.: "https://www.fedoraproject.org" or table field.)
+    1st: URL (e.g.: "https://www.fedoraproject.org".)<br>
     2nd: URL part reserved word.
+
+    __Note:__ This function should not be used with raw log lines, the result will be unpredictable.<br>
+    First, extract only the URL of the line, using the function slp_str(LOG_FORMAT, RAWLOG_LINE, "url");
+    ```
+    SELECT  slp_urlparts( slp_str("combined", rawlog, "url"), "scheme" ) from squid_combined_tbl;
+    SELECT  slp_urlparts( slp_str("combined", rawlog, "url"), "domain" ) from squid_combined_tbl;
+    SELECT  slp_urlparts( slp_str("combined", rawlog, "url"), "username" ) from squid_combined_tbl;
+    SELECT  slp_urlparts( slp_str("combined", rawlog, "url"), "password" ) from squid_combined_tbl;
+    SELECT  slp_urlparts( slp_str("combined", rawlog, "url"), "path" ) from squid_combined_tbl;
+    SELECT  slp_urlparts( slp_str("combined", rawlog, "url"), "query" ) from squid_combined_tbl;
+    SELECT  slp_urlparts( slp_str("combined", rawlog, "url"), "fragment" ) from squid_combined_tbl;
+    ```
+
     ```
     SELECT slp_urlparts(url_field, "domain") FROM log_squid;
 
