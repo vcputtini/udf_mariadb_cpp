@@ -14,8 +14,11 @@
 
 CREATE OR REPLACE FUNCTION slp_int RETURNS INTEGER SONAME 'libvcpsquidlogparser.so';
 CREATE OR REPLACE FUNCTION slp_str RETURNS STRING SONAME 'libvcpsquidlogparser.so';
+
 CREATE OR REPLACE FUNCTION slp_urldecode RETURNS STRING SONAME 'libvcpsquidlogparser.so';
 CREATE OR REPLACE FUNCTION slp_urlparts RETURNS STRING SONAME 'libvcpsquidlogparser.so';
+CREATE OR REPLACE FUNCTION slp_toUnitTs RETURNS INTEGER SONAME 'libvcpsquidlogparser.so';
+CREATE OR REPLACE FUNCTION slp_toSquidTs RETURNS STRING SONAME 'libvcpsquidlogparser.so';
 
 CREATE OR REPLACE AGGREGATE FUNCTION slp_sum RETURNS INTEGER SONAME 'libvcpsquidlogparser.so';
 CREATE OR REPLACE AGGREGATE FUNCTION slp_countbyrm RETURNS INTEGER SONAME 'libvcpsquidlogparser.so';
