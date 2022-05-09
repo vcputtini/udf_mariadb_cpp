@@ -151,6 +151,30 @@ Up to this point the *slp_int() and slp_str()* can handle the default formats of
     ```
     See docs/ex-slp_urlparts.sql for a more complete example.
 
+    - Syntax<br>
+    Type: function<br>
+    Brief:  Convenience function that convert the Squid-readable format date to a Unix timestamp.<br>
+    _STRING slp_toUnixTs(string)_<br>
+    Note: Mandatory date format: dd/Mmm/yyyy:hh:mm:ss or  dd/Mmm/yyyy:hh:mm:ss [-]0000<br>
+
+    ```
+    SELECT slp_toUnixTs("09/Jan/2022:12:30:50");
+    or
+    SELECT SELECT slp_toUnixTs(squid_date) FROM log_combined_tbl;
+    ```
+
+    - Syntax<br>
+    Type: function<br>
+    Brief: Convenience function that convert the numeric Unix timestamp to a Squid-readable format date.<br>
+    _STRING slp_toSquidTs(integer)_<br>
+
+    ```
+    SELECT slp_toSquidTs(1651410533);
+    or
+    SELECT slp_toSquidTs(timestamp) FROM  log_squid_tbl;
+    ```
+
+
 * Reserved words to retrieve parts of the log entries<br>
 The complete list of words reserved for use in the function can be found in the *docs/reserved-words.txt* file.
 
