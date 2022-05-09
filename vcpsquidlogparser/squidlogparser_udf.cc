@@ -207,6 +207,52 @@ extern "C"
              : p.getPartInt(util.getFieldId(log_part_));
   }
 
+  my_bool slp_toUnixTs_init(UDF_INIT* initid, UDF_ARGS* args, char* message)
+  {
+    UTIL util;
+
+    initid->maybe_null = 1;
+    initid->decimals = 0;
+    initid->max_length = 20;
+
+    if (args->arg_count == 1) {
+      UTIL::ResultErr r = {};
+      if (args->arg_type[ARG_DATA_0] != STRING_RESULT) {
+        util.getErrorText(ErrID::ERR_INVALID_TYPE_ARG, r);
+        std::sprintf(message, r.msg, 1, "(STRING)");
+        return MY_FALSE;
+      }
+
+    } else {
+      UTIL::ResultErr r = {};
+      util.getErrorText(ErrID::ERR_WRONG_NUM_ARGS, r);
+      std::memmove(message, r.msg, r.len);
+      return MY_FALSE;
+    }
+
+    return MY_TRUE;
+  }
+
+  void slp_toUnixTs_deinit(UDF_INIT* initid)
+  {
+    if (initid->ptr != NULL) {
+      delete initid->ptr;
+    }
+  }
+
+  int64_t slp_toUnixTs([[maybe_unused]] UDF_INIT* initid,
+                       UDF_ARGS* args,
+                       [[maybe_unused]] char* is_null,
+                       [[maybe_unused]] char* error)
+  {
+    const std::string ts_(args->args[ARG_DATA_0], args->lengths[ARG_DATA_0]);
+
+    SquidLogParser p;
+    int64_t result_ = static_cast<int64_t>(p.unixTimestamp(ts_));
+
+    return result_;
+  }
+
   /* String ----------------------------------------------------------------- */
   my_bool slp_str_init(UDF_INIT* initid, UDF_ARGS* args, char* message)
   {
@@ -430,6 +476,55 @@ extern "C"
     } else {
       str_ = std::string();
     }
+
+    result = new char[str_.size()];
+    std::strncpy(result, str_.c_str(), str_.size());
+    *length = static_cast<unsigned long>(str_.size());
+
+    return result;
+  }
+
+  my_bool slp_toSquidTs_init(UDF_INIT* initid, UDF_ARGS* args, char* message)
+  {
+    initid->maybe_null = 1;
+    initid->decimals = 0;
+    initid->max_length = 20;
+
+    UTIL util;
+
+    if (args->arg_count == 1) {
+      UTIL::ResultErr r;
+      if (args->arg_type[ARG_DATA_0] != INT_RESULT) {
+        util.getErrorText(ErrID::ERR_INVALID_TYPE_ARG, r);
+        std::sprintf(message, r.msg, 1, "(INTEGER))");
+        return MY_FALSE;
+      }
+    } else {
+      Utilities::ResultErr r;
+      util.getErrorText(ErrID::ERR_WRONG_NUM_ARGS_1, r);
+      std::memmove(message, r.msg, r.len);
+      return MY_FALSE;
+    }
+    return MY_TRUE;
+  }
+
+  void slp_toSquidTs_deinit(UDF_INIT* initid)
+  {
+    if (initid->ptr != NULL) {
+      delete initid->ptr;
+    }
+  }
+
+  char* slp_toSquidTs([[maybe_unused]] UDF_INIT* initid,
+                      UDF_ARGS* args,
+                      char* result,
+                      unsigned long* length,
+                      [[maybe_unused]] char* is_null,
+                      [[maybe_unused]] char* error)
+  {
+    const int64_t ts_ = (*(int64_t*)args->args[ARG_DATA_0]);
+    SquidLogParser p;
+    std::string str_ = p.unixToSquidDate(ts_);
 
     result = new char[str_.size()];
     std::strncpy(result, str_.c_str(), str_.size());

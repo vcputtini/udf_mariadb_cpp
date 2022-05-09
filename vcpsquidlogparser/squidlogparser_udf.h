@@ -183,6 +183,15 @@ extern "C"
                                            char* is_null,
                                            char* error);
 
+  VCPSQUIDLOGPARSER_EXPORT my_bool slp_toUnixTs_init(UDF_INIT* initid,
+                                                     UDF_ARGS* args,
+                                                     char* message);
+  VCPSQUIDLOGPARSER_EXPORT void slp_toUnixTs_deinit(UDF_INIT* initid);
+  VCPSQUIDLOGPARSER_EXPORT int64_t slp_toUnixTs(UDF_INIT* initid,
+                                                UDF_ARGS* args,
+                                                char* is_null,
+                                                char* error);
+
   /* Strings */
   VCPSQUIDLOGPARSER_EXPORT my_bool slp_str_init(UDF_INIT* initid,
                                                 UDF_ARGS* args,
@@ -216,6 +225,17 @@ extern "C"
                                               unsigned long* length,
                                               char* is_null,
                                               char* error);
+
+  VCPSQUIDLOGPARSER_EXPORT my_bool slp_toSquidTs_init(UDF_INIT* initid,
+                                                      UDF_ARGS* args,
+                                                      char* message);
+  VCPSQUIDLOGPARSER_EXPORT void slp_toSquidTs_deinit(UDF_INIT* initid);
+  VCPSQUIDLOGPARSER_EXPORT char* slp_toSquidTs(UDF_INIT* initid,
+                                               UDF_ARGS* args,
+                                               char* result,
+                                               unsigned long* length,
+                                               char* is_null,
+                                               char* error);
 
   /* Aggregations ----------------------------------------------------------- */
   VCPSQUIDLOGPARSER_EXPORT my_bool slp_sum_init(UDF_INIT* initid,
