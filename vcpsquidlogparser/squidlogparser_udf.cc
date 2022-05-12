@@ -175,8 +175,8 @@ extern "C"
    * \param error
    * \return int64_t
    *
-   * \attention Returns the value LONG_MIN in case there's an error in parsing
-   * the log line.
+   * \attention Returns the value std::numeric_limits<int64_t>::min() in case
+   * there's an error in parsing the log line.
    */
   int64_t slp_int([[maybe_unused]] UDF_INIT* initid,
                   [[maybe_unused]] UDF_ARGS* args,
@@ -190,7 +190,7 @@ extern "C"
 
     // MUST BE check if raw_log_ is empty
     if (raw_log_.empty()) {
-      return LONG_MIN;
+      return std::numeric_limits<int64_t>::min();
     }
 
     UTIL util;
@@ -198,7 +198,7 @@ extern "C"
     SquidLogParser p(util.toLower(log_fmt_));
     p.append(raw_log_);
     if (p.errorNum() != SLPError::SLP_SUCCESS) {
-      return LONG_MIN;
+      return std::numeric_limits<int64_t>::min();
     }
 
     return ((util.getFieldId(log_part_) == LogFields::CliSrcIpAddr) ||
@@ -595,7 +595,7 @@ extern "C"
     int64_t sum_ = p->getPartInt(util.getFieldId(log_part_));
     delete p;
     if (*((int64_t*)initid->ptr) > 0 &&
-        sum_ > LONG_MAX - *((int64_t*)initid->ptr)) {
+        sum_ > std::numeric_limits<int64_t>::max() - *((int64_t*)initid->ptr)) {
       *error = 1; // overflow
     }
 
